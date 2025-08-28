@@ -14,6 +14,8 @@ const userData = [
 const http = require("http")
 
 const server = http.createServer((req, res) => {
+    // Add CORS header to allow requests from any origin
+    res.setHeader("Access-Control-Allow-Origin", "*")
     res.setHeader("Content-Type", "application/json")
     res.write(JSON.stringify(userData))
     res.end()
