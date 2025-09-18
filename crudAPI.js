@@ -50,6 +50,16 @@ client.connect().then((connection) => {
             success: true
         })
     })
+
+    // POST API to Enroll New Student
+    app.post("/api/students/enroll", async(req, res)=>{
+        const result = await collection.insertOne(req.body)
+        res.send({
+            message: "New Student Enrolled",
+            result: result,
+            success: true
+        })
+    })
 })
 
 // Start the server on port 4200
