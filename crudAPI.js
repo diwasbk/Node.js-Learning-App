@@ -3,7 +3,7 @@ import express from "express"
 const app = express();
 
 // Import MongoClient from mongodb package
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 
 // MongoDB connection URL (local MongoDB server)
 const url = "mongodb://127.0.0.1:27017"
@@ -30,6 +30,22 @@ client.connect().then((connection) => {
         // Send response back to client
         res.send({
             message: "Students Fetched Successfully!",
+            result: result,
+            success: true
+        })
+    })
+
+    // GET Students by ID
+    app.get("/api/students/:id", async(req, res)=>{
+        const result = await collection.findOne({_id: new ObjectId(req.params.id)})
+        if(!result){
+            return res.send({
+                message: "Student Not Found",
+                success: false
+            })
+        }
+        res.send({
+            message: `Welcome! ${result.name}`,
             result: result,
             success: true
         })
