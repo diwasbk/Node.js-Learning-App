@@ -73,6 +73,16 @@ client.connect().then((connection) => {
             success: true
         })
     })
+
+    // DELETE API to Delete Student
+    app.delete("/api/students/delete/:id", async (req, res) => {
+        const result = await collection.deleteMany({ _id: new ObjectId(req.params.id) })
+        res.send({
+            message: "Student Deleted Successfullly",
+            result: result,
+            succ: true
+        })
+    })
 })
 
 // Start the server on port 4200
