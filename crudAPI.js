@@ -36,9 +36,9 @@ client.connect().then((connection) => {
     })
 
     // GET Students by ID
-    app.get("/api/students/:id", async(req, res)=>{
-        const result = await collection.findOne({_id: new ObjectId(req.params.id)})
-        if(!result){
+    app.get("/api/students/:id", async (req, res) => {
+        const result = await collection.findOne({ _id: new ObjectId(req.params.id) })
+        if (!result) {
             return res.send({
                 message: "Student Not Found",
                 success: false
@@ -52,10 +52,23 @@ client.connect().then((connection) => {
     })
 
     // POST API to Enroll New Student
-    app.post("/api/students/enroll", async(req, res)=>{
+    app.post("/api/students/enroll", async (req, res) => {
         const result = await collection.insertOne(req.body)
         res.send({
             message: "New Student Enrolled",
+            result: result,
+            success: true
+        })
+    })
+
+    // PUT API to Update Student Details
+    app.put("/api/students/update/:id", async (req, res) => {
+        const result = await collection.updateMany(
+            { _id: new ObjectId(req.params.id) },
+            { $set: req.body }
+        )
+        res.send({
+            message: "Student Details Updated Successfully",
             result: result,
             success: true
         })
