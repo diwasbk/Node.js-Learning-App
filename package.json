@@ -4,6 +4,8 @@
     "colors": "^1.4.0",
     "express": "^5.1.0",
     "mongodb": "^6.19.0",
+    "multer": "^2.0.2",
+    "nodemailer": "^7.0.6",
     "nodemon": "^3.1.10"
   }
 }
