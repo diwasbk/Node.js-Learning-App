@@ -75,6 +75,29 @@ app.put("/api/user/update/:email", async (req, res) => {
     }
 })
 
+// Delete User by email
+app.delete("/api/user/delete/:email", async (req, res) => {
+    try {
+        const user = await userModel.findOne({ email: req.params.email })
+        if (!user) {
+            return res.status(404).send({
+                message: "User not found",
+                success: false
+            })
+        }
+        await userModel.findOneAndDelete({ email: req.params.email })
+        res.status(200).send({
+            message: `User Account of ${user.username} has been deleted successfully!`,
+            success: true
+        })
+    } catch (err) {
+        res.send({
+            message: err.message ?? "Unknown Error",
+            success: false
+        })
+    }
+})
+
 app.listen(4200, () => {
     console.log("Server is running at the port 4200.")
 })
