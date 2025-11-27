@@ -1,11 +1,13 @@
 import express from "express"
 import userModel from "./models/userModel.js"
+import schemaValidateMiddleware from "./middlewares/schemaValidateMiddleware.js"
+import enrollSchema from "./validators/schemaValidator.js"
 
 const app = express()
 app.use(express.json())
 
 // Enroll user into company
-app.post("/api/user/enroll", async (req, res) => {
+app.post("/api/user/enroll", schemaValidateMiddleware(enrollSchema), async (req, res) => {
     try {
         const user = await userModel.create({
             username: req.body.username,
@@ -49,7 +51,7 @@ app.get("/api/user/:email", async (req, res) => {
 })
 
 // Update User by email
-app.put("/api/user/update/:email", async (req, res) => {
+app.put("/api/user/update/:email", schemaValidateMiddleware(enrollSchema.partial()), async (req, res) => {
     try {
         const user = await userModel.findOne({ email: req.params.email })
         if (!user) {
