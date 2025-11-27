@@ -5,7 +5,7 @@ const app = express()
 app.use(express.json())
 
 // Enroll user into company
-app.post("/api/enroll", async (req, res) => {
+app.post("/api/user/enroll", async (req, res) => {
     try {
         const user = await userModel.create({
             username: req.body.username,
