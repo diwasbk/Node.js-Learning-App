@@ -48,6 +48,33 @@ app.get("/api/user/:email", async (req, res) => {
     }
 })
 
+// Update User by email
+app.put("/api/user/update/:email", async (req, res) => {
+    try {
+        const user = await userModel.findOne({ email: req.params.email })
+        if (!user) {
+            return res.status(404).send({
+                message: "User not found",
+                success: false
+            })
+        }
+        await userModel.findOneAndUpdate(
+            { email: req.params.email },
+            { $set: req.body },
+            { new: true }
+        )
+        res.status(201).send({
+            message: "User Updated!",
+            success: true
+        })
+    } catch (err) {
+        res.send({
+            message: err.message ?? "Unknown Error",
+            success: false
+        })
+    }
+})
+
 app.listen(4200, () => {
     console.log("Server is running at the port 4200.")
 })
