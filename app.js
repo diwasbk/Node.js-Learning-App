@@ -12,8 +12,31 @@ app.post("/api/enroll", async (req, res) => {
             email: req.body.email,
             address: req.body.address
         })
-        res.send({
+        res.status(201).send({
             message: "Enrolled!",
+            result: user,
+            success: false
+        })
+    } catch (err) {
+        res.send({
+            message: err.message ?? "Unknown Error",
+            success: false
+        })
+    }
+})
+
+// Get User by email
+app.get("/api/user/:email", async (req, res) => {
+    try {
+        const user = await userModel.findOne({ email: req.params.email })
+        if (!user) {
+            return res.status(404).send({
+                message: "User Not Found",
+                success: false
+            })
+        }
+        res.status(200).send({
+            message: `Welcome ${user.username}`,
             result: user,
             success: false
         })
