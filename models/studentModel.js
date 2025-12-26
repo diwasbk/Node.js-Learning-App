@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
+mongoose.connect("mongodb://127.0.0.1:27017/studentdb")
 
+import mongoose from "mongoose";
 const studentSchema = mongoose.Schema({
     name: {
         type: String,
